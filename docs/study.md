@@ -32,3 +32,6 @@ Looking at the [ninjas.controller.ts](../src/ninjas/ninjas.controller.ts) file:
     - Behind the scenes, nest is parsing the url and auto injects it into the method 
 - To get a query from the url (like `/ninjas?fast`), we use the `@Query` decorator
 - DTO = Data Transfer Object
+
+## Providers
+Providers have a injectable decorator. These injectable services refer to classes or providers that can be injected into other classes or components within the application. These services encapsulate specific functionality, making the code modular and easier to manage.

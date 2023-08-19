@@ -7,47 +7,42 @@ import {
   Post,
   Put,
   Query,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateNinjaDto } from './dto/create-ninjas.dto';
 import { UpdateNinjaDto } from './dto/update-ninjas.dto';
+import { NinjasService } from './ninjas.service';
 
 @Controller('ninjas')
 export class NinjasController {
+  constructor(private readonly ninjasService: NinjasService) {}
+
   @Get()
-  getNinjas(@Query('type') type: string) {
-    return [
-      {
-        type,
-      },
-    ];
+  getNinjas(@Query('weapon') weapon: 'stars' | 'kindness') {
+    return this.ninjasService.getNinjas(weapon);
   }
 
   @Get(':id')
   getOneNinja(@Param('id') id: string) {
-    return {
-      id,
-    };
+    try {
+      return this.ninjasService.getNinja(+id);
+    } catch (error) {
+      throw new NotFoundException();
+    }
   }
 
   @Post()
   createNinja(@Body() createNinjaDto: CreateNinjaDto) {
-    return {
-      name: createNinjaDto.name,
-    };
+    return this.ninjasService.createNinja(createNinjaDto);
   }
 
   @Put(':id')
   updateNinja(@Param('id') id: string, @Body() updateNinjaDto: UpdateNinjaDto) {
-    return {
-      id,
-      name: updateNinjaDto,
-    };
+    return this.ninjasService.updateNinja(+id, updateNinjaDto);
   }
 
   @Delete(':id')
   removeNinja(@Param('id') id: string) {
-    return {
-      id,
-    };
+    return this.ninjasService.removeNinja(+id);
   }
 }
