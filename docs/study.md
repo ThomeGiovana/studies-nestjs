@@ -35,3 +35,24 @@ Looking at the [ninjas.controller.ts](../src/ninjas/ninjas.controller.ts) file:
 
 ## Providers
 Providers have a injectable decorator. These injectable services refer to classes or providers that can be injected into other classes or components within the application. These services encapsulate specific functionality, making the code modular and easier to manage.
+
+## Validators
+Validation pipes can be used to transform data and validate data. They run before a service is called.
+
+Example: in the code below, we're using a validation pipe to validate the @Body of the post request
+```javascript
+  @Post()
+  createNinja(@Body(new ValidationPipe()) createNinjaDto: CreateNinjaDto) {
+    return this.ninjasService.createNinja(createNinjaDto);
+  }
+```
+And inside our post dto, we specify our validation prerequisites with validation decorators::
+```javascript
+export class CreateNinjaDto {
+  @MinLength(3)
+  name: string;
+
+  weapon: 'stars' | 'kindness';
+}
+```
+[Class Validator Documentation](https://github.com/typestack/class-validator)
