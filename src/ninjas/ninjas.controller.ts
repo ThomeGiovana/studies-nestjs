@@ -10,10 +10,12 @@ import {
   NotFoundException,
   ParseIntPipe,
   ValidationPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateNinjaDto } from './dto/create-ninjas.dto';
 import { UpdateNinjaDto } from './dto/update-ninjas.dto';
 import { NinjasService } from './ninjas.service';
+import { BlackbeltGuard } from 'src/blackbelt/blackbelt.guard';
 
 @Controller('ninjas')
 export class NinjasController {
@@ -27,13 +29,14 @@ export class NinjasController {
   @Get(':id')
   getOneNinja(@Param('id', ParseIntPipe) id: number) {
     try {
-      return this.ninjasService.getNinja(id); 
+      return this.ninjasService.getNinja(id);
     } catch (error) {
       throw new NotFoundException();
     }
   }
 
   @Post()
+  @UseGuards(BlackbeltGuard)
   createNinja(@Body(new ValidationPipe()) createNinjaDto: CreateNinjaDto) {
     return this.ninjasService.createNinja(createNinjaDto);
   }

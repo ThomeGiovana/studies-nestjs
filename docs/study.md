@@ -56,3 +56,21 @@ export class CreateNinjaDto {
 }
 ```
 [Class Validator Documentation](https://github.com/typestack/class-validator)
+
+
+## Guards
+This is to protect your routes. You can protect an entire controller and all it's routes:
+```javascript
+@Controller('ninjas')
+@UseGuards(BlackbeltGuard)
+export class NinjasController { ... }
+```
+
+Or you can protect a single route:
+```javascript
+@Post()
+  @UseGuards(BlackbeltGuard)
+  createNinja(@Body(new ValidationPipe()) createNinjaDto: CreateNinjaDto) {
+    return this.ninjasService.createNinja(createNinjaDto);
+  }
+```
